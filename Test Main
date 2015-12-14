@@ -1,0 +1,119 @@
+// The "Puzzle_Slider" class.
+import java.awt.*;
+import hsa.Console;
+
+public class Puzzle_Slider_Test
+{
+    static Console c;           // The output console
+    
+    public static void main (String[] args)
+    {
+        c = new Console ();
+        Puzzle_Slider x = new Puzzle_Slider(5);
+        x.draw(c);
+        char choose = 'u';
+        while (choose != 'q')
+            {
+            choose = Character.toLowerCase(c.getChar());
+            if (choose == 'w')
+                x.up();
+            else if (choose == 's')
+                x.down();
+            else if (choose == 'a')
+                x.left();
+            else if (choose == 'd')
+                x.right();
+            x.draw(c);
+            }
+        // Place your program here.  'c' is the output console
+    } // main method
+} // Puzzle_Slider class
+class Tile
+    {
+    protected char symbol;
+    protected boolean blank;
+    
+    public Tile(char input, boolean bln)
+        {
+        this.symbol = input;
+        this.blank = bln;
+        }
+        
+    public void draw(Console c, int x, int y)
+        {
+        }
+
+    public String print()
+        {
+        return ""+this.symbol+" ";
+        }
+    }
+
+class Puzzle_Slider
+    {
+    protected Tile [][] tiles;
+    int size;
+    int xx;
+    int xy;
+    
+    public Puzzle_Slider(int size)
+        {
+        int count = 65;
+        this.size = size;
+        tiles = new Tile[size][size];
+        for (int i = 0; i < size; i++)
+            for (int ii = 0; ii < size; ii++)
+                this.tiles[i][ii] = new Tile((char) count++,true);
+        xx = size - 1;
+        xy = size - 1;
+        tiles[xx][xy] = new Tile('_',false);
+        }
+    
+    public void draw(Console c)
+        {
+        c.clear();
+        for (int i = 0; i < this.size; i++)
+            {
+            for (int ii = 0; ii < this.size; ii++)
+                c.print(""+this.tiles[ii][i].print());
+            c.println("");
+            }
+        }
+        
+    public void down()
+        {
+        if (xy != this.size - 1)
+            {
+            Tile temp = this.tiles[xx][xy];
+            this.tiles[xx][xy] = this.tiles[xx][++xy];
+            this.tiles[xx][xy] = temp;
+            }
+        }
+    public void up()
+        {
+        if (xy != 0)
+            {
+            Tile temp = this.tiles[xx][xy];
+            this.tiles[xx][xy] = this.tiles[xx][--xy];
+            this.tiles[xx][xy] = temp;
+            }
+        }
+    public void right()
+        {
+        if (xx != this.size - 1)
+            {
+            Tile temp = this.tiles[xx][xy];
+            this.tiles[xx][xy] = this.tiles[++xx][xy];
+            this.tiles[xx][xy] = temp;
+            }
+        }
+    public void left()
+        {
+        if (xx != 0)
+            {
+            Tile temp = this.tiles[xx][xy];
+            this.tiles[xx][xy] = this.tiles[--xx][xy];
+            this.tiles[xx][xy] = temp;
+            }
+        }
+    }
